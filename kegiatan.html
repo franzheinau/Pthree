@@ -7,16 +7,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
   <style>
     :root{--bg:#fff;--surface:#f7f9fc;--text:#0b0f14;--muted:#5b6673;--accent:#1e88e5;--accent-2:#111827;--border:1px solid rgba(17,24,39,.08);--shadow:0 10px 24px rgba(2,6,23,.08);--radius:14px;--container:1200px;--ease:cubic-bezier(.22,.61,.36,1)}
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth;scroll-padding-top:72px}
-    body{margin:0;font-family:"Montserrat",system-ui,sans-serif;background:var(--bg);color:var(--text)}
+    *{box-sizing:border-box} html{scroll-behavior:smooth;scroll-padding-top:72px} body{margin:0;font-family:"Montserrat",system-ui,sans-serif;background:var(--bg);color:var(--text)}
     a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
     .container{max-width:var(--container);margin:auto;padding:0 1rem}
 
-    /* Navbar */
+    /* Navbar V2 + tema tetap */
     .topbar{position:sticky;top:0;z-index:60;background:#fff;border-bottom:1px solid rgba(2,6,23,.06)}
     .topbar-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
     .brand{font-weight:800;color:var(--accent-2)}
@@ -45,25 +42,12 @@
     .sep{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(2,6,23,.15),transparent);margin:.6rem 0 1.2rem}
 
     /* Slider */
-    .carousel{position:relative;overflow:hidden;border-radius:var(--radius);box-shadow:var(--shadow);margin:1rem 0 2rem;background:#fff;border:var(--border);overscroll-behavior:contain}
-    .track{
-      display:flex;
-      will-change:transform;
-      touch-action:pan-y pinch-zoom; /* izinkan scroll vertikal, kita kunci ke horizontal saat drag */
-      user-select:none;
-    }
+    .carousel{position:relative;overflow:hidden;border-radius:var(--radius);box-shadow:var(--shadow);margin:1rem 0 2rem;background:#fff;border:var(--border)}
+    .track{display:flex;touch-action:pan-y}
     .slide{min-width:100%;user-select:none}
-    .slide img{
-      width:100%;
-      display:block;
-      aspect-ratio:16/9;
-      object-fit:cover;
-      -webkit-user-drag:none;
-      user-drag:none;
-      pointer-events:none; /* biar jempol tidak “nempel” ke image */
-    }
-    .dots{position:absolute;left:0;right:0;bottom:.5rem;display:flex;gap:.35rem;justify-content:center;pointer-events:auto}
-    .dot{width:8px;height:8px;border-radius:10px;background:rgba(0,0,0,.25);cursor:pointer}
+    .slide img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover}
+    .dots{position:absolute;left:0;right:0;bottom:.5rem;display:flex;gap:.35rem;justify-content:center;pointer-events:none}
+    .dot{width:8px;height:8px;border-radius:10px;background:rgba(0,0,0,.25)}
     .dot.active{background:#fff;box-shadow:0 0 0 2px rgba(0,0,0,.2)}
 
     /* Masonry */
@@ -124,15 +108,15 @@
 
     <!-- Slider -->
     <div class="carousel reveal" aria-label="Galeri pilihan">
-      <div class="track" id="track" aria-live="polite">
-        <div class="slide"><img src="https://i.postimg.cc/sfwngxjk/Whats-App-Image-2025-02-06-at-13-58-08-e13edae4" alt="Galeri 1" loading="lazy" decoding="async" fetchpriority="high" draggable="false"></div>
-        <div class="slide"><img src="https://imgur.com/eIFXKLW.jpg" alt="Galeri 2" loading="lazy" decoding="async" draggable="false"></div>
-        <div class="slide"><img src="https://imgur.com/8ev83tB.jpg" alt="Galeri 3" loading="lazy" decoding="async" draggable="false"></div>
-        <div class="slide"><img src="https://i.imgur.com/rjVU3La.jpeg" alt="Galeri 4" loading="lazy" decoding="async" draggable="false"></div>
-        <div class="slide"><img src="https://i.imgur.com/MkZWWpE.jpeg" alt="Galeri 5" loading="lazy" decoding="async" draggable="false"></div>
-        <div class="slide"><img src="https://i.postimg.cc/VsbbvLcV/Whats-App-Image-2025-07-25-at-14-31-03-cd7a0283" alt="Galeri 6" loading="lazy" decoding="async" draggable="false"></div>
+      <div class="track" id="track">
+        <div class="slide"><img src="https://ik.imagekit.io/3fgrgeqi6z/WhatsApp%20Image%202025-02-06%20at%2013.58.08_e13edae4.jpg?updatedAt=1761223838127" alt="Galeri 1" loading="lazy" decoding="async"></div>
+        <div class="slide"><img src="https://imgur.com/eIFXKLW.jpg" alt="Galeri 2" loading="lazy" decoding="async"></div>
+        <div class="slide"><img src="https://imgur.com/8ev83tB.jpg" alt="Galeri 3" loading="lazy" decoding="async"></div>
+        <div class="slide"><img src="https://i.imgur.com/rjVU3La.jpeg" alt="Galeri 3" loading="lazy" decoding="async"></div>
+        <div class="slide"><img src="https://i.imgur.com/MkZWWpE.jpeg" alt="Galeri 3" loading="lazy" decoding="async"></div>
+        <div class="slide"><img src="https://ik.imagekit.io/3fgrgeqi6z/WhatsApp%20Image%202025-07-25%20at%2014.31.03_cd7a0283.jpg?updatedAt=1761223492385" alt="Galeri 3" loading="lazy" decoding="async"></div>
       </div>
-      <div class="dots" id="dots" aria-label="Navigasi slide"></div>
+      <div class="dots" id="dots"></div>
     </div>
 
     <!-- Masonry -->
@@ -140,12 +124,12 @@
       <img src="https://i.imgur.com/avLGlgl.jpeg.jpg" alt="Kegiatan 1" loading="lazy" decoding="async">
       <img src="https://i.imgur.com/hQWCNhy.jpeg.jpg" alt="Kegiatan 2" loading="lazy" decoding="async">
       <img src="https://i.imgur.com/VwV8I4m.jpeg.jpg" alt="Kegiatan 3" loading="lazy" decoding="async">
-      <img src="https://i.postimg.cc/bw7pr8Hh/Whats-App-Image-2024-11-26-at-16-50-57-316d298b" alt="Kegiatan 4" loading="lazy" decoding="async">
-      <img src="https://i.postimg.cc/cJB2WNFf/Whats-App-Image-2025-02-07-at-09-58-12-494a4948" alt="Kegiatan 5" loading="lazy" decoding="async">
-      <img src="https://i.postimg.cc/0QpQPjLn/Whats-App-Image-2024-11-26-at-16-49-16-48686d84" alt="Kegiatan 6" loading="lazy" decoding="async">
       <img src="https://i.imgur.com/Eik3T7C.jpeg.jpg" alt="Kegiatan 7" loading="lazy" decoding="async">
       <img src="https://i.imgur.com/dqLtu9J.jpeg.jpg" alt="Kegiatan 8" loading="lazy" decoding="async">
-      <img src="https://i.postimg.cc/VsbbvLcV/Whats-App-Image-2025-07-25-at-14-31-03-cd7a0283" alt="Kegiatan 9" loading="lazy" decoding="async">
+      <img src="https://ik.imagekit.io/3fgrgeqi6z/WhatsApp%20Image%202025-02-07%20at%2009.58.12_494a4948.jpg?updatedAt=1761224280622" alt="Kegiatan 8" loading="lazy" decoding="async">
+      <img src="https://i.imgur.com/MkZWWpE.jpeg" alt="Kegiatan 8" loading="lazy" decoding="async">
+      <img src="https://ik.imagekit.io/3fgrgeqi6z/WhatsApp%20Image%202025-07-25%20at%2014.31.03_cd7a0283.jpg?updatedAt=1761223492385" alt="Kegiatan 8" loading="lazy" decoding="async">
+      <img src="https://ik.imagekit.io/3fgrgeqi6z/WhatsApp%20Image%202024-11-26%20at%2016.50.57_e0c09027.jpg?updatedAt=1761224200756" alt="Kegiatan 8" loading="lazy" decoding="async">
     </div>
 
     <footer class="reveal">
@@ -154,9 +138,6 @@
   </main>
 
   <script>
-/* =========================
-   Menu mobile
-========================= */
 function bindMenu(){
   const hamb = document.getElementById('hamb');
   const menu = document.getElementById('menu');
@@ -172,9 +153,6 @@ function bindMenu(){
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
 }
 
-/* =========================
-   Reveal on scroll
-========================= */
 function initReveals(){
   const els = document.querySelectorAll('.reveal, .reveal-stagger');
   if (!els.length) return;
@@ -184,159 +162,61 @@ function initReveals(){
   els.forEach(el=>io.observe(el));
 }
 
-/* =========================
-   Slider baru (mobile mulus)
-   - Pointer Events + axis-lock
-   - rAF throttle + translate3d
-   - Autoplay aman
-========================= */
 function initSliderIfExists(){
   const track = document.getElementById('track');
   if (!track) return;
 
-  const carousel = track.closest('.carousel');
   const slides = Array.from(track.children);
   const dotsWrap = document.getElementById('dots');
+  let idx=0, startX=0, down=false, auto=null;
+  const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-  let idx = 0;
-  let dragging = false;
-  let startX = 0, startY = 0;
-  let axis = null; // 'x' | 'y' | null
-  let raf = null;
-  let pendingX = 0;
-  let autoTimer = null;
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const setX = (px)=>{ track.style.transform = `translateX(${px}px)`; };
+  const W = ()=> track.clientWidth;
 
-  // Util lebar slide (pakai lebar container, bukan scrollWidth)
-  const W = ()=> (carousel?.clientWidth || track.clientWidth || 0);
-
-  // Apply transform pakai rAF agar halus
-  function setX(px){
-    pendingX = px;
-    if (raf) return;
-    raf = requestAnimationFrame(()=> {
-      track.style.transform = `translate3d(${pendingX}px,0,0)`;
-      raf = null;
+  function go(i, trans=true){
+    idx = (i + slides.length) % slides.length;
+    track.style.transition = trans ? 'transform .5s cubic-bezier(.22,.61,.36,1)' : 'none';
+    setX(-idx * W()); paint();
+  }
+  function paint(){
+    if (!dotsWrap) return;
+    dotsWrap.innerHTML = '';
+    slides.forEach((_,i)=>{
+      const d = document.createElement('span');
+      d.className = 'dot' + (i===idx ? ' active' : '');
+      dotsWrap.appendChild(d);
     });
   }
-
-  function paintDots(){
-    if (!dotsWrap) return;
-    dotsWrap.innerHTML = slides.map((_,i)=>`<span class="dot${i===idx?' active':''}" data-idx="${i}" aria-label="Ke slide ${i+1}" role="button" tabindex="0"></span>`).join('');
-  }
-
-  function go(i, opts={animate:true}){
-    idx = (i + slides.length) % slides.length;
-    track.style.transition = opts.animate ? 'transform .45s cubic-bezier(.22,.61,.36,1)' : 'none';
-    setX(-idx * W());
-    paintDots();
-  }
-
-  function playAuto(){
-    if (reduce) return;
-    stopAuto();
-    autoTimer = setTimeout(()=>{ go(idx+1); playAuto(); }, 5000);
-  }
-  function stopAuto(){
-    if (autoTimer) clearTimeout(autoTimer);
-    autoTimer = null;
-  }
-
-  // Nonaktifkan drag di semua gambar (hindari “nyangkut”)
-  slides.forEach(s=>{
-    const img = s.querySelector('img');
-    if (img) img.draggable = false;
-  });
-
-  // Axis-lock threshold
-  const SLOP = 6; // px untuk menentukan arah
-
-  function onPointerDown(e){
-    if (e.pointerType === 'mouse' && e.button !== 0) return; // hanya left-click
-    dragging = true; axis = null;
-    startX = e.clientX; startY = e.clientY;
-    track.style.transition = 'none';
-    stopAuto();
-    try{ track.setPointerCapture(e.pointerId); }catch{}
-  }
-
-  function onPointerMove(e){
-    if (!dragging) return;
-
-    const dx = e.clientX - startX;
-    const dy = e.clientY - startY;
-
-    // Tentukan axis sekali saja
-    if (!axis){
-      if (Math.abs(dx) < SLOP && Math.abs(dy) < SLOP) return;
-      axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
-
-      // Jika vertikal, biarkan halaman scroll & batalkan drag
-      if (axis === 'y'){ dragging = false; return; }
-    }
-
-    // Kunci ke horizontal -> cegah scroll bawaan
-    if (axis === 'x'){
-      e.preventDefault();
-      setX(-idx * W() + dx);
-    }
-  }
-
-  function onPointerUp(e){
-    if (!dragging) return;
-    dragging = false;
-    try{ track.releasePointerCapture(e.pointerId); }catch{}
-
-    const dx = e.clientX - startX;
-    const th = W() * 0.12; // 12% lebar layar
-
-    if (dx < -th)      go(idx+1);
-    else if (dx > th)  go(idx-1);
-    else               go(idx, {animate:true});
-
+  const getX = (e)=> (e.touches? e.touches[0].clientX : e.clientX) || 0;
+  function downFn(e){ down=true; startX = getX(e) + idx*W(); track.style.transition='none'; stopAuto(); }
+  function moveFn(e){ if(!down) return; setX(-(startX - getX(e))); }
+  function upFn(e){
+    if(!down) return; down=false;
+    const moved = startX - getX(e), th = W()*0.15;
+    if (moved >  th) go(idx+1);
+    else if (moved < -th) go(idx-1);
+    else go(idx);
     playAuto();
   }
 
-  // Listener utama (non-passive supaya kita bisa preventDefault)
-  track.addEventListener('pointerdown', onPointerDown, {passive:false});
-  window.addEventListener('pointermove', onPointerMove, {passive:false});
-  window.addEventListener('pointerup', onPointerUp);
-  window.addEventListener('pointercancel', onPointerUp);
+  track.addEventListener('touchstart',downFn,{passive:true});
+  track.addEventListener('touchmove', moveFn,{passive:true});
+  track.addEventListener('touchend',  upFn);
+  track.addEventListener('mousedown',(e)=>{ e.preventDefault(); downFn(e); });
+  window.addEventListener('mousemove',moveFn);
+  window.addEventListener('mouseup',  upFn);
+  window.addEventListener('resize',()=>go(idx,false));
 
-  // Pause/resume auto
-  carousel.addEventListener('pointerenter', stopAuto);
-  carousel.addEventListener('pointerleave', playAuto);
-  document.addEventListener('visibilitychange', ()=>{ document.hidden ? stopAuto() : playAuto(); });
+  function playAuto(){ if(reduce) return; stopAuto(); auto = setInterval(()=>go(idx+1), 5000); }
+  function stopAuto(){ if(auto) clearInterval(auto); auto=null; }
+  track.addEventListener('mouseenter',stopAuto);
+  track.addEventListener('mouseleave',playAuto);
+  document.addEventListener('visibilitychange',()=>{ document.hidden ? stopAuto() : playAuto(); });
 
-  // Klik dots
-  if (dotsWrap){
-    dotsWrap.addEventListener('click', (e)=>{
-      const el = e.target.closest('.dot'); if(!el) return;
-      const i = Number(el.dataset.idx);
-      if (Number.isFinite(i)){ stopAuto(); go(i); playAuto(); }
-    });
-    // Aksesibilitas via keyboard
-    dotsWrap.addEventListener('keydown', (e)=>{
-      if (e.key === 'Enter' || e.key === ' ') {
-        const el = e.target.closest('.dot'); if(!el) return;
-        const i = Number(el.dataset.idx);
-        if (Number.isFinite(i)){ e.preventDefault(); stopAuto(); go(i); playAuto(); }
-      }
-    });
-  }
-
-  // Responsif
-  window.addEventListener('resize', ()=>go(idx, {animate:false}));
-
-  // Mulai
-  paintDots();
-  go(0, {animate:false});
-  playAuto();
+  go(0,false); playAuto();
 }
 
-/* =========================
-   Transition antar halaman
-========================= */
 function initPageTransitions(){
   document.body.classList.add('page-enter');
   const isInternal = (a)=>{ try{ return a.origin===location.origin && !a.hasAttribute('download') && !a.target; }catch{return false;} };
@@ -348,7 +228,6 @@ function initPageTransitions(){
   });
 }
 
-// Inisialisasi
 bindMenu();
 initReveals();
 initSliderIfExists();
