@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PTHREE — Kontak</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    :root {--bg:#fff;--surface:#f7f9fc;--text:#0b0f14;--muted:#5b6673;--accent:#1e88e5;--accent-2:#111827;--border:1px solid rgba(17,24,39,.08);--shadow:0 10px 24px rgba(2,6,23,.08);--radius:14px;--container:1000px;--ease:cubic-bezier(.22,.61,.36,1)}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:72px}
+    body{margin:0;font-family:"Montserrat",system-ui,sans-serif;background:var(--bg);color:var(--text)}
+    a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+    .container{max-width:var(--container);margin:auto;padding:0 1rem}
+
+    /* Navbar V2 */
+    .topbar{position:sticky;top:0;z-index:60;background:#fff;border-bottom:1px solid rgba(2,6,23,.06)}
+    .topbar-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+    .brand{font-weight:800;color:var(--accent-2)}
+    .brand-wrap{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none}
+    .brand-logo{width:28px;height:28px;object-fit:cover;border-radius:6px}
+    .hamb{width:40px;height:40px;border-radius:10px;border:1px solid rgba(2,6,23,.12);display:grid;place-content:center;background:#fff;cursor:pointer}
+    .hamb i{font-size:18px;color:var(--accent-2)}
+    .nav-inline{display:none;align-items:center;gap:.25rem}
+    .nav-inline .nav-link{display:inline-block;padding:10px 12px;border-radius:10px;font-weight:600;color:var(--accent-2);opacity:.9;text-decoration:none}
+    .nav-inline .nav-link:hover{background:rgba(2,6,23,.05);opacity:1;text-decoration:none}
+    .nav-inline .nav-link.active{background:rgba(2,6,23,.06);box-shadow:inset 0 0 0 1px rgba(2,6,23,.08);opacity:1}
+    @media (min-width:900px){.nav-inline{display:flex}.hamb{display:none}}
+
+    .mobile-menu{position:fixed;inset:0;background:var(--accent-2);color:#fff;transform:translateY(-100%);opacity:0;pointer-events:none;transition:transform .35s var(--ease),opacity .35s ease;display:flex;flex-direction:column;z-index:999}
+    .mobile-menu.open{transform:translateY(0);opacity:1;pointer-events:auto}
+    .mobile-menu__bar{display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid rgba(255,255,255,.12)}
+    .mobile-menu__close{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);display:grid;place-content:center;cursor:pointer;color:#fff}
+    .mobile-menu__links{display:flex;flex-direction:column;gap:8px;padding:24px 16px;max-width:var(--container);margin:32px auto 0}
+    .mobile-menu__links a{display:block;padding:16px 12px;border-radius:12px;color:#fff;font-weight:700;font-size:1.2rem;border:1px solid rgba(255,255,255,.12)}
+    .mobile-menu__links a.active{background:#0f172a;border-color:rgba(255,255,255,.22)}
+    .no-scroll{overflow:hidden}
+
+    main{padding:1rem 0}
+    h1{margin:1.2rem 0 .2rem}
+    .muted{color:var(--muted)}
+    .sep{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(2,6,23,.15),transparent);margin:.6rem 0 1.2rem}
+
+    .grid{display:grid;gap:1rem;grid-template-columns:1fr}
+    @media (min-width:900px){.grid{grid-template-columns:1fr 1fr}}
+    .card{background:#fff;border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem}
+    .map{width:100%;border:0;border-radius:12px}
+    .gform-wrap{border:1px solid rgba(17,24,39,.08);border-radius:14px;overflow:hidden;box-shadow:0 10px 24px rgba(2,6,23,.08);background:#fff}
+    @media(max-width:640px){.gform-wrap iframe{height:1100px}}
+    footer{text-align:center;padding:2rem 0 3rem;color:var(--muted)}
+
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .55s var(--ease),transform .55s var(--ease)} .reveal.visible{opacity:1;transform:none}
+    body.page-enter{animation:pageIn .35s var(--ease) both} body.page-exit{animation:pageOut .22s var(--ease) both}
+    @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    @keyframes pageOut{to{opacity:0;transform:translateY(6px)}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="dasboard.html" class="brand-wrap" aria-label="Beranda PTHREE">
+        <img src="https://i.imgur.com/u2k2fsE.jpg" alt="Logo PTHREE" class="brand-logo">
+        <span class="brand">PTHREE</span>
+      </a>
+
+      <nav class="nav-inline" aria-label="Navigasi utama">
+        <a class="nav-link" href="dasboard.html">Dashboard</a>
+        <a class="nav-link" href="kegiatan.html">Kegiatan</a>
+        <a class="nav-link" href="tentang.html">Tentang</a>
+        <a class="nav-link active" href="kontak.html" aria-current="page">Kontak</a>
+      </nav>
+
+      <button class="hamb" id="hamb" aria-label="Buka menu" aria-controls="menu" aria-expanded="false">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+
+    <nav class="mobile-menu" id="menu" aria-label="Navigasi">
+      <div class="mobile-menu__bar">
+        <strong>PTHREE</strong>
+        <button class="mobile-menu__close" id="closeMenu" aria-label="Tutup menu"><i class="fa fa-close"></i></button>
+      </div>
+      <div class="mobile-menu__links">
+        <a href="dasboard.html">Dashboard</a>
+        <a href="kegiatan.html">Kegiatan</a>
+        <a href="tentang.html">Tentang</a>
+        <a class="active" href="kontak.html" aria-current="page">Kontak</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1 class="reveal">Kontak Kami</h1>
+    <p class="muted reveal">Hubungi kami untuk saran, kolaborasi, atau informasi kegiatan.</p>
+    <hr class="sep">
+
+    <div class="grid">
+      <section class="card reveal">
+        <h2>Informasi</h2>
+        <p><i class="fa fa-map-marker"></i> Teweh Tengah, Jingah</p>
+        <p><i class="fa fa-envelope"></i> Email: <a href="mailto:pthree236@gmail.com">pthree236@gmail.com</a></p>
+        <p><i class="fa fa-instagram"></i> Instagram: <a href="https://www.instagram.com/pthree.smada" target="_blank" rel="noopener">@pthree.smada</a></p>
+        <p><i class="fa fa-whatsapp"></i> WhatsApp Group: <a href="https://chat.whatsapp.com/EKpgzLqREEU40oBQo6FeRu" target="_blank" rel="noopener">Bergabung</a></p>
+        <img class="map" src="https://i.imgur.com/SH1FnZB.jpeg.jpg" alt="Peta lokasi" loading="lazy" decoding="async">
+      </section>
+
+      <section class="card reveal">
+        <h2>Kirim Pesan</h2>
+        <div class="gform-wrap">
+          <iframe
+            src="https://docs.google.com/forms/d/e/1FAIpQLSeYEi4fY-HH8vE-cZ07TptaaDj5LEqsCG2LAv4dNQw3XmO5-Q/viewform?embedded=true"
+            width="100%" height="940" frameborder="0" marginheight="0" marginwidth="0"
+            title="Form Kontak PTHREE" loading="lazy">
+            Memuat formulir…
+          </iframe>
+        </div>
+        <p class="muted" style="margin-top:.8rem">
+          Jika formulir tidak muncul, buka di sini:
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSeYEi4fY-HH8vE-cZ07TptaaDj5LEqsCG2LAv4dNQw3XmO5-Q/viewform" target="_blank" rel="noopener">Buka Form Kontak →</a>
+        </p>
+      </section>
+    </div>
+
+    <footer class="reveal">
+      <p>© PTHREE 2025</p>
+    </footer>
+  </main>
+
+  <script>
+function bindMenu(){
+  const hamb = document.getElementById('hamb');
+  const menu = document.getElementById('menu');
+  const closeBtn = document.getElementById('closeMenu');
+  if (!hamb || !menu) return;
+
+  const openMenu = ()=>{ menu.classList.add('open'); document.body.classList.add('no-scroll'); hamb.setAttribute('aria-expanded','true'); };
+  const closeMenu = ()=>{ menu.classList.remove('open'); document.body.classList.remove('no-scroll'); hamb.setAttribute('aria-expanded','false'); };
+
+  hamb.onclick = openMenu;
+  if (closeBtn) closeBtn.onclick = closeMenu;
+  menu.addEventListener('click', (e)=>{ if(e.target.tagName === 'A') closeMenu(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
+}
+
+function initReveals(){
+  const els = document.querySelectorAll('.reveal, .reveal-stagger');
+  if (!els.length) return;
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(ent=>{ if(ent.isIntersecting){ ent.target.classList.add('visible'); io.unobserve(ent.target);} });
+  }, { threshold:.18, rootMargin:"0px 0px -10% 0px" });
+  els.forEach(el=>io.observe(el));
+}
+
+function initSliderIfExists(){ /* tidak ada slider */ }
+
+function initPageTransitions(){
+  document.body.classList.add('page-enter');
+  const isInternal=(a)=>{ try{ return a.origin===location.origin && !a.hasAttribute('download') && !a.target; }catch{return false;} };
+  document.addEventListener('click',(e)=>{
+    const a=e.target.closest('a'); if(!a) return;
+    const href=a.getAttribute('href')||''; if(href.startsWith('#')) return; if(!isInternal(a)) return;
+    if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button===1) return;
+    e.preventDefault(); document.body.classList.add('page-exit'); setTimeout(()=>{ window.location.href=a.href; },220);
+  });
+}
+
+bindMenu();
+initReveals();
+initSliderIfExists();
+initPageTransitions();
+  </script>
+</body>
+</html>

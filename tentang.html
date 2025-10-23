@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PTHREE — Tentang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    :root{--bg:#fff;--surface:#f7f9fc;--text:#0b0f14;--muted:#5b6673;--accent:#1e88e5;--accent-2:#111827;--border:1px solid rgba(17,24,39,.08);--shadow:0 10px 24px rgba(2,6,23,.08);--radius:14px;--container:1000px;--ease:cubic-bezier(.22,.61,.36,1)}
+    *{box-sizing:border-box} html{scroll-behavior:smooth;scroll-padding-top:72px} body{margin:0;font-family:"Montserrat",system-ui,sans-serif;background:var(--bg);color:var(--text)}
+    a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+    .container{max-width:var(--container);margin:auto;padding:0 1rem}
+
+    /* Navbar V2 */
+    .topbar{position:sticky;top:0;z-index:60;background:#fff;border-bottom:1px solid rgba(2,6,23,.06)}
+    .topbar-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+    .brand{font-weight:800;color:var(--accent-2)}
+    .brand-wrap{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none}
+    .brand-logo{width:28px;height:28px;object-fit:cover;border-radius:6px}
+    .hamb{width:40px;height:40px;border-radius:10px;border:1px solid rgba(2,6,23,.12);display:grid;place-content:center;background:#fff;cursor:pointer}
+    .hamb i{font-size:18px;color:var(--accent-2)}
+    .nav-inline{display:none;align-items:center;gap:.25rem}
+    .nav-inline .nav-link{display:inline-block;padding:10px 12px;border-radius:10px;font-weight:600;color:var(--accent-2);opacity:.9;text-decoration:none}
+    .nav-inline .nav-link:hover{background:rgba(2,6,23,.05);opacity:1;text-decoration:none}
+    .nav-inline .nav-link.active{background:rgba(2,6,23,.06);box-shadow:inset 0 0 0 1px rgba(2,6,23,.08);opacity:1}
+    @media (min-width:900px){.nav-inline{display:flex}.hamb{display:none}}
+
+    .mobile-menu{position:fixed;inset:0;background:var(--accent-2);color:#fff;transform:translateY(-100%);opacity:0;pointer-events:none;transition:transform .35s var(--ease),opacity .35s ease;display:flex;flex-direction:column;z-index:999}
+    .mobile-menu.open{transform:translateY(0);opacity:1;pointer-events:auto}
+    .mobile-menu__bar{display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid rgba(255,255,255,.12)}
+    .mobile-menu__close{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);display:grid;place-content:center;cursor:pointer;color:#fff}
+    .mobile-menu__links{display:flex;flex-direction:column;gap:8px;padding:24px 16px;max-width:var(--container);margin:32px auto 0}
+    .mobile-menu__links a{display:block;padding:16px 12px;border-radius:12px;color:#fff;font-weight:700;font-size:1.2rem;border:1px solid rgba(255,255,255,.12)}
+    .mobile-menu__links a.active{background:#0f172a;border-color:rgba(255,255,255,.22)}
+    .no-scroll{overflow:hidden}
+
+    main{padding:1rem 0}
+    h1{margin:1.2rem 0 .2rem}
+    .sep{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(2,6,23,.15),transparent);margin:.6rem 0 1.2rem}
+    .card{background:#fff;border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem}
+    .grid{display:grid;gap:1rem;grid-template-columns:1fr} @media (min-width:768px){.grid{grid-template-columns:1fr 1fr}}
+    .mentor{display:grid;gap:.6rem;grid-template-columns:64px 1fr;align-items:center}
+    .mentor img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:1px solid rgba(2,6,23,.12)}
+    footer{text-align:center;padding:2rem 0 3rem;color:var(--muted)}
+
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .55s var(--ease),transform .55s var(--ease)} .reveal.visible{opacity:1;transform:none}
+    body.page-enter{animation:pageIn .35s var(--ease) both} body.page-exit{animation:pageOut .22s var(--ease) both}
+    @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    @keyframes pageOut{to{opacity:0;transform:translateY(6px)}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="dasboard.html" class="brand-wrap" aria-label="Beranda PTHREE">
+        <img src="https://i.imgur.com/u2k2fsE.jpg" alt="Logo PTHREE" class="brand-logo">
+        <span class="brand">PTHREE</span>
+      </a>
+
+      <nav class="nav-inline" aria-label="Navigasi utama">
+        <a class="nav-link" href="dasboard.html">Dashboard</a>
+        <a class="nav-link" href="kegiatan.html">Kegiatan</a>
+        <a class="nav-link active" href="tentang.html" aria-current="page">Tentang</a>
+        <a class="nav-link" href="kontak.html">Kontak</a>
+      </nav>
+
+      <button class="hamb" id="hamb" aria-label="Buka menu" aria-controls="menu" aria-expanded="false">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+
+    <nav class="mobile-menu" id="menu" aria-label="Navigasi">
+      <div class="mobile-menu__bar">
+        <strong>PTHREE</strong>
+        <button class="mobile-menu__close" id="closeMenu" aria-label="Tutup menu"><i class="fa fa-close"></i></button>
+      </div>
+      <div class="mobile-menu__links">
+        <a href="dasboard.html">Dashboard</a>
+        <a href="kegiatan.html">Kegiatan</a>
+        <a class="active" href="tentang.html" aria-current="page">Tentang</a>
+        <a href="kontak.html">Kontak</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1 class="reveal">Tentang PTHREE</h1>
+    <p class="reveal" style="color:var(--muted)">Perkumpulan Para Pembaca di SMAN 2 Muara Teweh</p>
+    <hr class="sep">
+
+    <section class="card reveal">
+      <p>PTHREE dibentuk pada <b>Jumat, 25 Agustus 2023</b>. Kami adalah komunitas baca yang berkumpul setiap hari Jumat untuk menguatkan budaya literasi, berbagi wawasan, dan menumbuhkan kreativitas siswa.</p>
+      <p>Nama <b>PTHREE / P3</b> berarti <i>Perkumpulan Para Pembaca</i>. Angka <b>3</b> dipilih karena sering dianggap sebagai angka keberuntungan di beberapa negara. Semoga PTHREE selalu dalam keberuntungan. Aamiin.</p>
+      <p>Ikuti kami di Instagram: <a href="https://www.instagram.com/pthree.smada" target="_blank" rel="noopener">@pthree.smada</a></p>
+    </section>
+
+    <h2 class="reveal" style="margin-top:2rem">Pembina & Tim</h2>
+    <hr class="sep">
+    <div class="grid">
+      <div class="card mentor reveal">
+        <img src="https://i.imgur.com/o9t228Z.jpeg.jpg" alt="Hesti Lawinisari">
+        <div><b>Hesti Lawinisari, S.Pd.</b><div style="color:var(--muted)">Pembina </div></div>
+      </div>
+      <div class="card mentor reveal">
+        <img src="https://i.imgur.com/pHTzhBA.jpeg.jpg" alt="Selvia">
+        <div><b>Selvia, S.Pd.</b><div style="color:var(--muted)">Pembina </div></div>
+      </div>
+      <div class="card mentor reveal">
+        <img src="https://i.imgur.com/zufY7MG.jpeg.jpg" alt="Nepi Anita">
+        <div><b>Nepi Anita, S.Pd.</b><div style="color:var(--muted)">Pembina </div></div>
+      </div>
+      <div class="card mentor reveal">
+        <img src="https://i.postimg.cc/vZXyb9qr/Whats-App-Image-2025-10-23-at-19-45-24-07f594ec.jpg" alt="Ana Manarini">
+        <div><b>Ana Manarini, S.Pd.</b><div style="color:var(--muted)">Pembina </div></div>
+      </div>
+      <div class="card mentor reveal">
+        <img src="https://i.postimg.cc/fysqVqkv/Whats-App-Image-2025-10-23-at-19-47-21-b2a621d6.jpg" alt="Rifaldi">
+        <div><b>Muhammad Rifaldi</b><div style="color:var(--muted)">Web Designer • Mahasiswa</div></div>
+      </div>
+      <div class="card mentor reveal">
+        <img src="https://i.postimg.cc/YqhY1fgG/Whats-App-Image-2025-10-23-at-19-49-47-f6ffb3b8.jpg" alt="Rini Astuti">
+        <div><b>Rini Astuti</b><div style="color:var(--muted)">Pembina</div></div>
+      </div>
+    </div>
+
+    <footer class="reveal">
+      <p>© PTHREE 2025</p>
+    </footer>
+  </main>
+
+  <script>
+function bindMenu(){
+  const hamb = document.getElementById('hamb');
+  const menu = document.getElementById('menu');
+  const closeBtn = document.getElementById('closeMenu');
+  if (!hamb || !menu) return;
+
+  const openMenu = ()=>{ menu.classList.add('open'); document.body.classList.add('no-scroll'); hamb.setAttribute('aria-expanded','true'); };
+  const closeMenu = ()=>{ menu.classList.remove('open'); document.body.classList.remove('no-scroll'); hamb.setAttribute('aria-expanded','false'); };
+
+  hamb.onclick = openMenu;
+  if (closeBtn) closeBtn.onclick = closeMenu;
+  menu.addEventListener('click', (e)=>{ if(e.target.tagName === 'A') closeMenu(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
+}
+
+function initReveals(){
+  const els = document.querySelectorAll('.reveal, .reveal-stagger');
+  if (!els.length) return;
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(ent=>{ if(ent.isIntersecting){ ent.target.classList.add('visible'); io.unobserve(ent.target);} });
+  }, { threshold:.18, rootMargin:"0px 0px -10% 0px" });
+  els.forEach(el=>io.observe(el));
+}
+
+function initSliderIfExists(){ /* halaman ini tidak punya slider; biarkan kosong aman */ }
+
+function initPageTransitions(){
+  document.body.classList.add('page-enter');
+  const isInternal=(a)=>{ try{ return a.origin===location.origin && !a.hasAttribute('download') && !a.target; }catch{return false;} };
+  document.addEventListener('click',(e)=>{
+    const a=e.target.closest('a'); if(!a) return;
+    const href=a.getAttribute('href')||''; if(href.startsWith('#')) return; if(!isInternal(a)) return;
+    if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button===1) return;
+    e.preventDefault(); document.body.classList.add('page-exit'); setTimeout(()=>{ window.location.href=a.href; },220);
+  });
+}
+
+bindMenu();
+initReveals();
+initSliderIfExists();
+initPageTransitions();
+  </script>
+</body>
+</html>
