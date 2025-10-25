@@ -65,6 +65,87 @@
     body.page-exit{animation:pageOut .22s var(--ease) both}
     @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
     @keyframes pageOut{to{opacity:0;transform:translateY(6px)}}
+
+    /* =========================
+       TAMBAHAN/OVERRIDE (tidak menghapus kode awal)
+       - Drawer mobile menu + fix navbar hilang saat scroll
+    ========================== */
+
+    /* Ubah overlay menjadi drawer kanan */
+    header .mobile-menu{
+      position:fixed; inset:0; z-index:999;
+      transform:none !important;
+      opacity:1 !important;
+      background:transparent !important;
+      pointer-events:none;
+      display:block;
+      visibility:hidden; /* benar2 tak menghalangi header saat tertutup */
+    }
+    header .mobile-menu.open{ pointer-events:auto; visibility:visible; z-index:2000 !important; }
+
+    .mobile-menu__backdrop{
+      position:absolute; inset:0;
+      background:rgba(2,6,23,.55);
+      opacity:0;
+      transition:opacity .25s var(--ease);
+    }
+    .mobile-menu.open .mobile-menu__backdrop{ opacity:1; }
+
+    .mobile-menu__panel{
+      position:absolute; top:0; right:0; height:100%;
+      width:min(88vw,380px);
+      background:var(--accent-2); color:#fff;
+      box-shadow:-16px 0 32px rgba(2,6,23,.18);
+      border-left:1px solid rgba(255,255,255,.12);
+      transform:translateX(100%);
+      transition:transform .35s var(--ease);
+      display:flex; flex-direction:column;
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+    .mobile-menu.open .mobile-menu__panel{ transform:translateX(0); }
+
+    /* Lock scroll stabil saat drawer terbuka (anti loncat) */
+    .no-scroll{ position:fixed; inset:0; overflow:hidden; }
+
+    /* Fix navbar hilang saat scroll di mobile: jadikan header fixed + beri padding body */
+    :root{ --topbar-h:72px; }
+    html{ scroll-padding-top: var(--topbar-h) !important; }
+    @media (max-width:899.98px){
+      .topbar{ position:fixed !important; top:0; left:0; right:0; z-index:1000; }
+      body{ padding-top: var(--topbar-h); }
+    }
+
+    /* Preferensi reduce motion */
+    @media (prefers-reduced-motion:reduce){
+      .mobile-menu__backdrop, .mobile-menu__panel{ transition:none; }
+    }
+
+  #backToTop{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:none;
+  background:var(--accent);
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .3s,visibility .3s,transform .3s;
+  z-index:1000;
+}
+#backToTop:hover{
+  background:#1565c0;
+  transform:translateY(-3px);
+}
+#backToTop.show{
+  opacity:1;
+  visibility:visible;
+}
   </style>
 </head>
 <body>
@@ -87,18 +168,27 @@
       </button>
     </div>
 
-    <nav class="mobile-menu" id="menu" aria-label="Navigasi">
-      <div class="mobile-menu__bar">
-        <strong>PTHREE</strong>
-        <button class="mobile-menu__close" id="closeMenu" aria-label="Tutup menu"><i class="fa fa-close"></i></button>
-      </div>
-      <div class="mobile-menu__links">
-        <a href="index.html">Dashboard</a>
-        <a class="active" href="kegiatan.html" aria-current="page">Kegiatan</a>
-        <a href="tentang.html">Tentang</a>
-        <a href="kontak.html">Kontak</a>
-      </div>
-    </nav>
+    <!-- Overlay menu (mobile) — drawer kanan + backdrop -->
+<nav class="mobile-menu" id="menu" aria-label="Navigasi seluler" aria-hidden="true">
+  <div class="mobile-menu__backdrop" data-close></div>
+
+  <div class="mobile-menu__panel" role="dialog" aria-modal="true" aria-labelledby="mobileMenuTitle">
+    <div class="mobile-menu__bar">
+      <strong id="mobileMenuTitle">PTHREE</strong>
+      <button class="mobile-menu__close" id="closeMenu" aria-label="Tutup menu" data-close>
+        <i class="fa fa-close" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="mobile-menu__links">
+      <a class="active" href="index.html" aria-current="page">Dashboard</a>
+      <a href="kegiatan.html">Kegiatan</a>
+      <a href="tentang.html">Tentang</a>
+      <a href="kontak.html">Kontak</a>
+    </div>
+  </div>
+</nav>
+
   </header>
 
   <main class="container">
@@ -138,7 +228,9 @@
       <p>© PTHREE 2025</p>
     </footer>
   </main>
-
+<button id="backToTop" aria-label="Kembali ke atas">
+  <i class="fa fa-arrow-up"></i>
+</button>
   <script>
 function bindMenu(){
   const hamb = document.getElementById('hamb');
@@ -296,10 +388,82 @@ function initPageTransitions(){
   });
 }
 
+/* =========================
+   OVERRIDE bindMenu() — versi stabil (tanpa hapus versi lama)
+   - Simpan & kembalikan scrollY (anti loncat)
+   - Klik backdrop / tombol close / link menutup
+========================= */
+function bindMenu(){
+  const hamb = document.getElementById('hamb');
+  const menu = document.getElementById('menu');
+  if (!hamb || !menu) return;
+
+  const panel = menu.querySelector('.mobile-menu__panel') || menu;
+  const backdrop = menu.querySelector('.mobile-menu__backdrop');
+  let lastFocus = null;
+  let lastScrollY = 0;
+
+  const focusableSel = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  function openMenu(){
+    menu.classList.add('open');
+    menu.setAttribute('aria-hidden','false');
+    hamb.setAttribute('aria-expanded','true');
+
+    lastFocus = document.activeElement;
+    lastScrollY = window.scrollY || 0;
+    document.body.classList.add('no-scroll');
+    document.body.style.top = -lastScrollY + 'px';
+
+    const first = panel.querySelector(focusableSel);
+    if (first) first.focus({preventScroll:true});
+
+    document.addEventListener('keydown', onKeydown);
+  }
+
+  function closeMenu(){
+    menu.classList.remove('open');
+    menu.setAttribute('aria-hidden','true');
+    hamb.setAttribute('aria-expanded','false');
+
+    document.body.classList.remove('no-scroll');
+    document.body.style.top = '';
+    window.scrollTo(0, lastScrollY);
+
+    document.removeEventListener('keydown', onKeydown);
+    if (lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true});
+  }
+
+  function onKeydown(e){
+    if (e.key === 'Escape') closeMenu();
+  }
+
+  hamb.addEventListener('click', openMenu);
+
+  menu.addEventListener('click', (e)=>{
+    if (e.target.closest('[data-close]')) { closeMenu(); return; }
+    const link = e.target.closest('a[href]');
+    if (link) closeMenu();
+  });
+  if (backdrop) backdrop.addEventListener('click', closeMenu);
+}
+
+/* ==== RUN ==== */
 bindMenu();
 initReveals();
 initSliderIfExists();
 initPageTransitions();
+
+const backToTop = document.getElementById('backToTop');
+if(backToTop){
+  window.addEventListener('scroll', ()=>{
+    if(window.scrollY > 400) backToTop.classList.add('show');
+    else backToTop.classList.remove('show');
+  });
+  backToTop.addEventListener('click', ()=>{
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+}
   </script>
 </body>
 </html>
