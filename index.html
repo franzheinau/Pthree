@@ -245,6 +245,29 @@ header .mobile-menu.open{ z-index:2000 !important; }
   visibility:visible;
 }
 
+/* === LOCK HORIZONTAL SCROLL & OVERSCROLL (mobile-safe) === */
+html, body{
+  max-width:100%;
+  overflow-x:hidden;           /* cegah halaman geser ke kanan */
+  overscroll-behavior-x:none;  /* matikan bounce/geser balik di Android */
+  touch-action:pan-y;          /* kunci gesture ke vertikal */
+}
+/* pastikan kontainer besar tak melewati lebar viewport */
+.container,
+.carousel,
+.masonry,
+.video-grid{
+  max-width:100vw;
+}
+/* jaga media tidak meluber */
+img, iframe{
+  max-width:100%;
+}
+/* opsi iOS: tetap smooth */
+body{
+  -webkit-overflow-scrolling: touch;
+}
+
   </style>
 </head>
 <body>

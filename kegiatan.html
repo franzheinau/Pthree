@@ -146,6 +146,29 @@
   opacity:1;
   visibility:visible;
 }
+
+/* === LOCK HORIZONTAL SCROLL & OVERSCROLL (mobile-safe) === */
+html, body{
+  max-width:100%;
+  overflow-x:hidden;           /* cegah halaman geser ke kanan */
+  overscroll-behavior-x:none;  /* matikan bounce/geser balik di Android */
+  touch-action:pan-y;          /* kunci gesture ke vertikal (slider override di track) */
+}
+/* pastikan kontainer besar tak melewati lebar viewport */
+.container,
+.carousel,
+.masonry,
+.video-grid{
+  max-width:100vw;
+}
+/* jaga media tidak meluber */
+img, iframe{
+  max-width:100%;
+}
+/* opsi iOS: tetap smooth */
+body{
+  -webkit-overflow-scrolling: touch;
+}
   </style>
 </head>
 <body>
@@ -308,6 +331,13 @@ function initSliderIfExists(){
   function playAuto(){ if(reduce) return; stopAuto(); auto = setInterval(()=>go(idx+1), 5000); }
   function stopAuto(){ if(auto){ clearInterval(auto); auto = null; } }
 
+  // Tambahan: clamp dengan sedikit rubber-band di tepi
+  function clampWithRubber(x, min, max){
+    if (x > max) return max + (x - max) * 0.35;
+    if (x < min) return min + (x - min) * 0.35;
+    return x;
+  }
+
   // Pointer Events
   const SLOP = 6; // px: untuk menentukan arah awal
 
@@ -341,7 +371,13 @@ function initSliderIfExists(){
 
     // axis === 'x' -> kunci horizontal & cegah scroll
     e.preventDefault();
-    setX(baseX + dx);
+
+    // Batas geser: 0 s/d -(jumlahSlide-1)*W(), dengan rubber band di tepi
+    const maxX = 0;
+    const minX = -((slides.length - 1) * W());
+    const next = clampWithRubber(baseX + dx, minX, maxX);
+
+    setX(next);
   }
 
   function onUp(e){
